@@ -1,8 +1,10 @@
+// TODO Finish home page
 import Button from '@/components/Button';
 import CircleButton from '@/components/CircleButton';
 import EmojiList from '@/components/EmojiList';
 import EmojiPicker from '@/components/EmojiPicker';
 import EmojiSticker from '@/components/EmojiSticker';
+import * as Globals from '@/components/Constants';
 import IconButton from '@/components/IconButton';
 import ImageViewer from '@/components/ImageViewer';
 
@@ -12,6 +14,7 @@ import * as ImagePicker from 'expo-image-picker';
 // import { Link } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from "react-native";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const PlaceholderImage = require('@/assets/images/background-image.png');
 
@@ -56,7 +59,7 @@ export default function Index() {
   };
 
   return (
-    <View style={styles.container}>
+    <GestureHandlerRootView style={styles.container}>
 
       <View style={styles.imageContainer}>
         <ImageViewer imgSource={PlaceholderImage} selectedImage={selectedImage} />
@@ -86,7 +89,7 @@ export default function Index() {
         <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
       </EmojiPicker>
 
-    </View>
+    </GestureHandlerRootView>
   );
 }
 
