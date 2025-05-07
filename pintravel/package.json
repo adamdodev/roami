@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
+    "@paralleldrive/cuid2": "^2.2.2",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/native": "^7.1.6",
     "babel-plugin-inline-import": "^3.0.0",

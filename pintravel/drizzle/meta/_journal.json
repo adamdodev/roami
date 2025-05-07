@@ -15,6 +15,20 @@
       "when": 1746117203414,
       "tag": "0001_shallow_alice",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1746625158041,
+      "tag": "0002_unique_lady_deathstrike",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1746625608914,
+      "tag": "0003_marvelous_darwin",
+      "breakpoints": true
     }
   ]
 }

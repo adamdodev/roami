@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, TextInput, Button, ScrollView } from "react-native";
+import { Text, View, StyleSheet, TextInput, Button, ScrollView, Alert } from "react-native";
+import * as SQLite from "expo-sqlite";
+import { drizzle } from "drizzle-orm/expo-sqlite";
+import { itemsTable, countriesTable, continentsTable, locationsTable, tagsTable, activitiesTable, itemCountriesTable, itemContinentsTable, itemLocationsTable, itemTagsTable, itemActivitiesTable } from "@/db/schema";
+
+// Initialize SQLite and Drizzle
+const expo = SQLite.openDatabaseSync('db.db');
+const db = drizzle(expo);
 
 export default function AddItemScreen() {
   const [name, setName] = useState("");
@@ -8,19 +15,95 @@ export default function AddItemScreen() {
   const [continents, setContinents] = useState("");
   const [locations, setLocations] = useState("");
   const [tags, setTags] = useState("");
+  const [activities, setActivities] = useState("");
 
-  const handleSubmit = () => {
-    const newItem = {
-      name,
-      description,
-      countries: countries.split(",").map((c) => c.trim()), // Convert comma-separated string to array
-      continents: continents.split(",").map((c) => c.trim()),
-      locations: locations.split(",").map((l) => l.trim()),
-      tags: tags.split(",").map((t) => t.trim()),
-    };
+  const handleSubmit = async () => {
+    console.log("sub")
+    try {
+      // Insert the item into the items table
+      const item = await db.insert(itemsTable).values({
+        name: name,
+        description: description,
+      }).returning();
 
-    console.log("New Item:", newItem);
-    // TODO: Save the new item to the database
+      console.log(item)
+
+      const itemIdValue = item[0].id;
+
+      // Helper function to insert unique data based on name
+      const insertUniqueData = async (table, values) => {
+        const ids = []
+        for (const value of values) {
+          const row = await db
+            .insert(table)
+            .values({ name: value })
+            .onConflictDoNothing({
+              target: table.name,
+            })
+            .returning()
+
+            if (Array.isArray(row) && row.length > 0) {
+              ids.push(row[0].id);
+            }
+        }
+        return ids
+      };
+
+      // Upsert countries
+      const countryNames = countries.split(",").map((c) => c.trim());
+      const countryIds = await insertUniqueData(countriesTable, countryNames);
+      console.log(countryIds)
+
+      // // Upsert continents
+      // const continentNames = continents.split(",").map((c) => c.trim());
+      // const continentIds = await insertUniqueData(continentsTable, continentNames);
+      // console.log(continentIds)
+
+      // // Upsert locations
+      // const locationNames = locations.split(",").map((l) => l.trim());
+      // const locationIds = await insertUniqueData(locationsTable, locationNames);
+      // console.log(locationIds)
+
+      // // Upsert tags
+      // const tagNames = tags.split(",").map((t) => t.trim());
+      // const tagIds = await insertUniqueData(tagsTable, tagNames);
+      // console.log(tagIds)
+
+      // // Upsert activities
+      // const activityNames = activities.split(",").map((a) => a.trim());
+      // const activityIds = await insertUniqueData(activitiesTable, activityNames);
+      // console.log(activityIds)
+
+      // Insert relationships into many-to-many tables
+      // const insertRelationships = async (table, itemId, relatedTableField, relatedIds) => {
+      //   for (const id of relatedIds) {
+      //     // const relatedId = await db
+      //     //   .select(relatedTable.id)
+      //     //   .from(relatedTable)
+      //     //   .where(relatedTable.name.eq(id))
+      //     //   .limit(1);
+
+      //     // if (relatedId.length > 0) {
+      //       await db.insert(table).values({
+      //         itemId: itemId,
+      //         [`${relatedTableField}`]: relatedId[0].id,
+      //       });
+      //     // }
+      //   }
+      // };
+
+      // // Insert relationships
+      // await insertRelationships(itemCountriesTable, itemIdValue, "countryId", countryIds);
+      // await insertRelationships(itemContinentsTable, itemIdValue, "continentId", continentIds);
+      // await insertRelationships(itemLocationsTable, itemIdValue, "locationId", locationIds);
+      // await insertRelationships(itemTagsTable, itemIdValue, "tagId", tagNames);
+      // await insertRelationships(itemActivitiesTable, itemIdValue, "activityId", activityIds);
+
+      Alert.alert("Success", "Item saved successfully!");
+    } catch (error) {
+      console.error("Error saving item:", error);
+      Alert.alert("Error", "Failed to save the item.");
+    }
   };
 
   return (
@@ -74,6 +157,14 @@ export default function AddItemScreen() {
         placeholderTextColor="#aaa"
         value={tags}
         onChangeText={setTags}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Activities (comma-separated)"
+        placeholderTextColor="#aaa"
+        value={activities}
+        onChangeText={setActivities}
       />
 
       <Button title="Save Item" onPress={handleSubmit} />
