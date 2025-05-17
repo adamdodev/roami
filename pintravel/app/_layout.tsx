@@ -25,6 +25,8 @@ export default function RootLayout() {
   const { success, error } = useMigrations(db, migrations);
   console.log(success, error)
 
+  
+
   if (error) {
     return (
       <View style={styles.container}>

@@ -13,7 +13,7 @@ export const itemsTable = sqliteTable("items", {
 // Countries table
 export const countriesTable = sqliteTable("countries", {
   id: text().primaryKey().$defaultFn(() => createId()),
-  iso: text().notNull().unique(),
+  cca2: text().notNull().unique(),
   name: text().notNull(),
 });
 
