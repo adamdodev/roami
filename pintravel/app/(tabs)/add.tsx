@@ -54,25 +54,25 @@ export default function AddItemScreen() {
       const countryIds = await insertUniqueData(countriesTable, countryNames);
       console.log(countryIds)
 
-      // // Upsert continents
-      // const continentNames = continents.split(",").map((c) => c.trim());
-      // const continentIds = await insertUniqueData(continentsTable, continentNames);
-      // console.log(continentIds)
+      // Upsert continents
+      const continentNames = continents.split(",").map((c) => c.trim());
+      const continentIds = await insertUniqueData(continentsTable, continentNames);
+      console.log(continentIds)
 
-      // // Upsert locations
-      // const locationNames = locations.split(",").map((l) => l.trim());
-      // const locationIds = await insertUniqueData(locationsTable, locationNames);
-      // console.log(locationIds)
+      // Upsert locations
+      const locationNames = locations.split(",").map((l) => l.trim());
+      const locationIds = await insertUniqueData(locationsTable, locationNames);
+      console.log(locationIds)
 
-      // // Upsert tags
-      // const tagNames = tags.split(",").map((t) => t.trim());
-      // const tagIds = await insertUniqueData(tagsTable, tagNames);
-      // console.log(tagIds)
+      // Upsert tags
+      const tagNames = tags.split(",").map((t) => t.trim());
+      const tagIds = await insertUniqueData(tagsTable, tagNames);
+      console.log(tagIds)
 
-      // // Upsert activities
-      // const activityNames = activities.split(",").map((a) => a.trim());
-      // const activityIds = await insertUniqueData(activitiesTable, activityNames);
-      // console.log(activityIds)
+      // Upsert activities
+      const activityNames = activities.split(",").map((a) => a.trim());
+      const activityIds = await insertUniqueData(activitiesTable, activityNames);
+      console.log(activityIds)
 
       // Insert relationships into many-to-many tables
       // const insertRelationships = async (table, itemId, relatedTableField, relatedIds) => {
