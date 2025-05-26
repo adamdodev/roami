@@ -36,6 +36,20 @@
       "when": 1747487805882,
       "tag": "0004_next_odin",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1748181789315,
+      "tag": "0005_wise_surge",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1748193535551,
+      "tag": "0006_next_sinister_six",
+      "breakpoints": true
     }
   ]
 }

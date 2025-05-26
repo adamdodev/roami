@@ -5,10 +5,10 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 // Drizzle
-import * as SQLite from 'expo-sqlite';
-import { drizzle } from 'drizzle-orm/expo-sqlite';
-const expo = SQLite.openDatabaseSync('db.db');
-const db = drizzle(expo);
+// import * as SQLite from 'expo-sqlite';
+// import { drizzle } from 'drizzle-orm/expo-sqlite';
+// const expo = SQLite.openDatabaseSync('db.db');
+// const db = drizzle(expo);
 
 export default function TabLayout() {
   return (

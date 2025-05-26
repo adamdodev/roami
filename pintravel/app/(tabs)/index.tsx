@@ -21,19 +21,17 @@ import { drizzle } from "drizzle-orm/expo-sqlite";
 import { itemsTable, countriesTable, continentsTable, locationsTable, tagsTable, activitiesTable, itemCountriesTable, itemContinentsTable, itemLocationsTable, itemTagsTable, itemActivitiesTable } from "@/db/schema";
 
 
-// const PlaceholderImage = require('@/assets/images/background-image.png');
-
-
-console.log('1')
-// // Initialize SQLite and Drizzle
-const expo = SQLite.openDatabaseSync('db.db');
-console.log('2')
-const db = drizzle(expo);
-console.log('3')
-
-
 // Index component
 export default function Index() {
+
+  const [db, setDb] = useState<any>(null);
+
+  useEffect(() => {
+    (async () => {
+      const expo = await SQLite.openDatabaseAsync('db.db');
+      setDb(drizzle(expo));
+    })();
+  }, []);
 
   const [items, setItems] = useState<any[]>([]);
 
@@ -42,21 +40,22 @@ export default function Index() {
       const result = await db
         .select()
         .from(itemsTable)
-        .leftJoin(itemCountriesTable, eq(itemsTable.id, itemCountriesTable.itemId))
-        .leftJoin(countriesTable, eq(itemCountriesTable.countryId, countriesTable.id))
-        // .leftJoin(itemContinentsTable, itemContinentsTable.itemId.eq(itemsTable.id))
-        // .leftJoin(continentsTable, continentsTable.id.eq(itemContinentsTable.continentId))
-        // .leftJoin(itemLocationsTable, itemLocationsTable.itemId.eq(itemsTable.id))
-        // .leftJoin(locationsTable, locationsTable.id.eq(itemLocationsTable.locationId))
-        // .leftJoin(itemTagsTable, itemTagsTable.itemId.eq(itemsTable.id))
-        // .leftJoin(tagsTable, tagsTable.id.eq(itemTagsTable.tagId))
-        // .leftJoin(itemActivitiesTable, itemActivitiesTable.itemId.eq(itemsTable.id))
-        // .leftJoin(activitiesTable, activitiesTable.id.eq(itemActivitiesTable.activityId));
+        // .leftJoin(itemCountriesTable, eq(itemsTable.id, itemCountriesTable.itemId))
+        // .leftJoin(countriesTable, eq(itemCountriesTable.countryId, countriesTable.id))
+      // .leftJoin(itemContinentsTable, itemContinentsTable.itemId.eq(itemsTable.id))
+      // .leftJoin(continentsTable, continentsTable.id.eq(itemContinentsTable.continentId))
+      // .leftJoin(itemLocationsTable, itemLocationsTable.itemId.eq(itemsTable.id))
+      // .leftJoin(locationsTable, locationsTable.id.eq(itemLocationsTable.locationId))
+      // .leftJoin(itemTagsTable, itemTagsTable.itemId.eq(itemsTable.id))
+      // .leftJoin(tagsTable, tagsTable.id.eq(itemTagsTable.tagId))
+      // .leftJoin(itemActivitiesTable, itemActivitiesTable.itemId.eq(itemsTable.id))
+      // .leftJoin(activitiesTable, activitiesTable.id.eq(itemActivitiesTable.activityId));
       console.log(result)
       setItems(result);
     };
-    fetchItems();
-  }, []);
+    if (db) fetchItems();
+  }, [db]);
+
   console.log(items)
 
   // const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
@@ -102,49 +101,49 @@ export default function Index() {
       keyExtractor={(item) => item.id.toString()}
       ListHeaderComponent={<Text>My Items</Text>}
       renderItem={({ item }) => (
-      <View style={{ marginBottom: 12 }}>
-        <Text>{item.name}</Text>
-        <Text>{item.description}</Text>
-        <Text>Countries: {(item.countries?.name || item.countriesTable?.name) ?? 'None'}</Text>
-        {/* <Text>Continents: {(item.continents?.name || item.continentsTable?.name) ?? 'None'}</Text>
+        <View style={{ marginBottom: 12 }}>
+          <Text>{item.name}</Text>
+          <Text>{item.description}</Text>
+          <Text>Countries: {(item.countries?.name || item.countriesTable?.name) ?? 'None'}</Text>
+          {/* <Text>Continents: {(item.continents?.name || item.continentsTable?.name) ?? 'None'}</Text>
         <Text>Locations: {(item.locations?.name || item.locationsTable?.name) ?? 'None'}</Text>
         <Text>Tags: {(item.tags?.name || item.tagsTable?.name) ?? 'None'}</Text>
         <Text>Activities: {(item.activities?.name || item.activitiesTable?.name) ?? 'None'}</Text> */}
-      </View>
+        </View>
       )}
     />
-  
-  //   <GestureHandlerRootView style={styles.container}>
 
-  //     <View style={styles.imageContainer}>
-  //       <ImageViewer imgSource={PlaceholderImage} selectedImage={selectedImage} />
-  //       {pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />}
-  //     </View>
+    //   <GestureHandlerRootView style={styles.container}>
 
-  //     {showAppOptions ? (
+    //     <View style={styles.imageContainer}>
+    //       <ImageViewer imgSource={PlaceholderImage} selectedImage={selectedImage} />
+    //       {pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />}
+    //     </View>
 
-  //       <View style={styles.optionsContainer}>
-  //         <View style={styles.optionsRow}>
-  //           <IconButton icon="refresh" label="Reset" onPress={onReset} />
-  //           <CircleButton onPress={onAddSticker} />
-  //           <IconButton icon="save-alt" label="Save" onPress={onSaveImageAsync} />
-  //         </View>
-  //       </View>
-      
-  //     ) : (
+    //     {showAppOptions ? (
 
-  //     <View style={styles.footerContainer}>
-  //       <Button theme="primary" label="Choose a photo" onPress={pickImageAsync} />
-  //       <Button label="Use this photo" onPress={() => setShowAppOptions(true)} />
-  //     </View>
-      
-  //     )}
+    //       <View style={styles.optionsContainer}>
+    //         <View style={styles.optionsRow}>
+    //           <IconButton icon="refresh" label="Reset" onPress={onReset} />
+    //           <CircleButton onPress={onAddSticker} />
+    //           <IconButton icon="save-alt" label="Save" onPress={onSaveImageAsync} />
+    //         </View>
+    //       </View>
 
-  //     <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
-  //       <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
-  //     </EmojiPicker>
+    //     ) : (
 
-  //   </GestureHandlerRootView>
+    //     <View style={styles.footerContainer}>
+    //       <Button theme="primary" label="Choose a photo" onPress={pickImageAsync} />
+    //       <Button label="Use this photo" onPress={() => setShowAppOptions(true)} />
+    //     </View>
+
+    //     )}
+
+    //     <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
+    //       <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
+    //     </EmojiPicker>
+
+    //   </GestureHandlerRootView>
   );
 }
 

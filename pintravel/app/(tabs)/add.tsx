@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, TextInput, Button, ScrollView, Alert } from "react-native";
 import * as SQLite from "expo-sqlite";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { itemsTable, countriesTable, continentsTable, locationsTable, tagsTable, activitiesTable, itemCountriesTable, itemContinentsTable, itemLocationsTable, itemTagsTable, itemActivitiesTable } from "@/db/schema";
 
-// Initialize SQLite and Drizzle
-const expo = SQLite.openDatabaseSync('db.db');
-const db = drizzle(expo);
 
 export default function AddItemScreen() {
+
+  const [db, setDb] = useState<any>(null);
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [countries, setCountries] = useState("");
@@ -16,6 +16,13 @@ export default function AddItemScreen() {
   const [locations, setLocations] = useState("");
   const [tags, setTags] = useState("");
   const [activities, setActivities] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const expo = await SQLite.openDatabaseAsync('db.db');
+      setDb(drizzle(expo));
+    })();
+  }, []);
 
   const handleSubmit = async () => {
     console.log("sub")
@@ -42,9 +49,9 @@ export default function AddItemScreen() {
             })
             .returning()
 
-            if (Array.isArray(row) && row.length > 0) {
-              ids.push(row[0].id);
-            }
+          if (Array.isArray(row) && row.length > 0) {
+            ids.push(row[0].id);
+          }
         }
         return ids
       };

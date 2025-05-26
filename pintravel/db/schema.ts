@@ -1,43 +1,44 @@
 // TODO Consider prepopulating some of these tables
 
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { createId } from '@paralleldrive/cuid2';
 
 // Items table
 export const itemsTable = sqliteTable("items", {
-  id: text().primaryKey().$defaultFn(() => createId()),
+  id: integer().primaryKey(),
   name: text().notNull(),
   description: text(),
 });
 
 // Countries table
 export const countriesTable = sqliteTable("countries", {
-  id: text().primaryKey().$defaultFn(() => createId()),
+  id: integer().primaryKey(),
   cca2: text().notNull().unique(),
   name: text().notNull(),
+  flag: text().notNull(),
 });
 
 // Continents table
 export const continentsTable = sqliteTable("continents", {
-  id: text().primaryKey().$defaultFn(() => createId()),
+  id: integer().primaryKey(),
   name: text().notNull().unique(),
 });
 
 // Locations table
 export const locationsTable = sqliteTable("locations", {
-  id: text().primaryKey().$defaultFn(() => createId()),
+  id: integer().primaryKey(),
   name: text().notNull(),
 });
 
 // Tags table
 export const tagsTable = sqliteTable("tags", {
-  id: text().primaryKey().$defaultFn(() => createId()),
+  id: integer().primaryKey(),
   name: text().notNull().unique(),
 });
 
 // Activities table
 export const activitiesTable = sqliteTable("activities", {
-  id: text().primaryKey().$defaultFn(() => createId()),
+  id: integer().primaryKey(),
   name: text().notNull().unique(),
 });
 
