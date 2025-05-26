@@ -1,7 +1,8 @@
 {
     "cSpell.words": [
         "prepopulating",
-        "Pressable"
+        "Pressable",
+        "tinybase"
     ],
     "github.copilot.enable": {
         "*": false,
