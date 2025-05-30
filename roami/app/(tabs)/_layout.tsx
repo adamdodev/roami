@@ -25,7 +25,7 @@ export default function TabLayout() {
         }),
       }}>
       <Tabs.Screen
-        name="index"
+        name="items"
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => (
@@ -42,6 +42,13 @@ export default function TabLayout() {
             // <IconSymbol size={28} name="add.fill" color={color} />
             <MaterialCommunityIcons name="plus" size={24} color={color} />
           ),
+        }}
+      />
+      {/* Hide the index */}
+      <Tabs.Screen
+        name="index"
+        options={{
+          href: null,
         }}
       />
     </Tabs>
