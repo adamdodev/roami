@@ -1,0 +1,16 @@
+{
+    "build": {
+        "development": {
+            "extends": "production",
+            "developmentClient": true,
+            "distribution": "internal"
+        },
+        "preview": {
+            "extends": "production",
+            "distribution": "internal"
+        },
+        "production": {
+            "node": "24.0.2"
+        }
+    }
+}
