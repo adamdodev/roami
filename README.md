@@ -36,7 +36,7 @@ During Alpha development, releases will be cut directly from `main`. Eventually,
 
 # Local dev
 
-See the [Expo docs](https://docs.expo.dev/tutorial/create-your-first-app/) for instructions on setting up a dev environment. Expo Go is currently used for local testing, using both the Web and iOS versions.
+See the [Expo app README](./roami) and [Expo docs](https://docs.expo.dev/tutorial/create-your-first-app/) for instructions on setting up a dev environment. Expo Go is currently used for local testing, using both the Web and iOS versions.
 
 # Tests
 
