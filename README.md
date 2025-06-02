@@ -8,9 +8,10 @@ This repo is for developers interested in the Roami source code, architecture, a
 
 Roami was started by [Adam Westbrook](https://www.github.com/adamdodev) in 2025. The goal was to not only create a convenient, automated, day-to-day app for collecting travel inspiration, but to also create a real-world use case to discuss the following:
 
-- Assess the state of on-device AI capabilities in modern smartphones.
+- Assess the state of on-device AI capabilities in modern smartphones, and how they can be used to improve privacy and reduce costs.
 - Assess and promote [local-first development](https://localfirstweb.dev/) practices.
 - Acknowledge user fatigue with subscription-based revenue services, and understand the alternatives.
+- Understand the capabilities and limitations of GitHub Copilot in upskilling engineers to new languages and tech stacks.
 
 Inspired in part by the book [Tiny Experiments](https://uk.bookshop.org/p/books/tiny-experiments-create-a-life-of-discovery-to-think-better-work-smarter-and-live-happier-anne-laure-le-cunff/7696101?ean=9781800819153), the development of Roami will be open and interactive. It is hoped that this will help foster and contextualise the discussions above 🙂.
 
