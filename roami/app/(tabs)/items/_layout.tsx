@@ -11,7 +11,10 @@ export default function StackLayout() {
           headerShown: false,
         }} />
       <Stack.Screen
-        name="[productId]"
+        name="view"
+      />
+      <Stack.Screen
+        name="edit"
       />
     </Stack>
   );

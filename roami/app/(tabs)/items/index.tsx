@@ -31,8 +31,6 @@ import {
   useSetCellCallback,
 } from 'tinybase/ui-react';
 
-const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
-
 // Card view for items table
 
 const ItemsTableView = (props) => (
@@ -49,14 +47,14 @@ const ItemRowView = (props) => {
   const item = useRow(props.tableId, props.rowId);
   // console.log(item)
   return (
-    <Card style={styles.card} onPress={() => router.navigate(`/items/${props.rowId}`)}>
+    <Card style={styles.card} onPress={() => router.navigate(`/items/view?itemId=${props.rowId}`)}>
       <Card.Content>
         <Text variant="titleLarge">{item.name}</Text>
         <Text variant="bodyMedium">{item.description}</Text>
       </Card.Content>
-      <Card.Actions>
+      {/* <Card.Actions>
         <Button icon="camera" mode="text">Edit</Button>
-      </Card.Actions>
+      </Card.Actions> */}
     </Card>
   )
 };

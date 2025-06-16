@@ -1,6 +1,7 @@
 import {
     Stack,
     useLocalSearchParams,
+    useRouter,
 } from 'expo-router';
 
 import {
@@ -8,6 +9,8 @@ import {
 } from 'react'
 
 import {
+    Alert,
+    Platform,
     SafeAreaView,
     ScrollView,
     StyleSheet,
@@ -18,14 +21,18 @@ import {
 import {
     Appbar,
     Button,
+    Dialog,
     FAB,
-    Menu, Divider, PaperProvider,
+    Menu,
+    Portal,
+    Divider, PaperProvider,
     IconButton,
 } from 'react-native-paper';
 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
+    useStore,
     CellView,
     Provider,
     RowView,
@@ -38,12 +45,46 @@ import {
     useSetCellCallback,
 } from 'tinybase/ui-react';
 
-const ItemMenu = () => {
+
+
+const ItemMenu = (props) => {
+    itemId = props.itemId
+    console.log('pased itemid', itemId)
     const [visible, setVisible] = useState(false);
+    const [dialogVisible, setDialogVisible] = useState(false);
+    const router = useRouter();
+
 
     const openMenu = () => setVisible(true);
 
     const closeMenu = () => setVisible(false);
+
+    const showDialog = () => {
+        closeMenu();
+        setDialogVisible(true);
+    }
+
+    const hideDialog = () => setDialogVisible(false);
+
+
+    const store = useStore();
+    console.log("Store:", store)
+
+    const deleteItem = () => {
+        console.log("Deleting");
+        console.log(store?.getRowCount('items'))
+        console.log('del itemid', itemId)
+        store.delRow('items', itemId);
+        hideDialog();
+        closeMenu();
+        router.replace('/items');
+    }
+
+    const editItem = () => {
+        hideDialog();
+        closeMenu();
+        router.navigate(`/items/edit?itemId=${itemId}`)
+    }
 
     return (
         <View
@@ -55,17 +96,31 @@ const ItemMenu = () => {
                 visible={visible}
                 onDismiss={closeMenu}
                 anchor={<IconButton icon='dots-horizontal' onPress={openMenu} />}>
-                <Menu.Item leadingIcon="pencil" title="Edit" onPress={() => { }} />
-                <Menu.Item leadingIcon="delete" title="Delete" onPress={() => { }} />
+                <Menu.Item leadingIcon="pencil" title="Edit" onPress={editItem} />
+                <Menu.Item leadingIcon="delete" title="Delete" onPress={showDialog} />
             </Menu>
+            <Portal>
+                <Dialog visible={dialogVisible} onDismiss={hideDialog}>
+                    <Dialog.Content>
+                        <Text>Are you sure you want to delete this item?</Text>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button onPress={hideDialog}>No</Button>
+                        <Button icon="delete" textColor="red" onPress={deleteItem}>Yes</Button>
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
         </View>
     );
 };
 
+
 export default function Item(props) {
-    console.log(props)
+    // console.log(props)
     const { itemId } = useLocalSearchParams();
+    console.log("itemId", itemId)
     const item = useRow('items', itemId);
+    console.log("Item:", item)
 
     const BOTTOM_APPBAR_HEIGHT = 120;
     const MEDIUM_FAB_HEIGHT = 56;
@@ -79,7 +134,7 @@ export default function Item(props) {
                 <Stack.Screen
                     options={{
                         title: item.name,
-                        headerRight: () => <ItemMenu />,
+                        headerRight: () => <ItemMenu itemId={itemId} />,
                     }}
                 />
                 <Text>
